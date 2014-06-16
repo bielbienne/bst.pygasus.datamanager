@@ -35,6 +35,8 @@ setup(name='bb.extjs.datamanager',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'zope.interface',
+          'zope.schema',
           # -*- Extra requirements: -*-
       ],
       entry_points={

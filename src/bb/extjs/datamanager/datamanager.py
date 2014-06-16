@@ -52,11 +52,14 @@ class DataManagerEntryPoint(ext.MultiAdapter):
                                            data=list()), indent=' '*4))
     
     def successresponse(self, message, data):
-        if not isinstance(data, (list, tuple,)):
-            data = [data]
+        length = 1
+        if isinstance(data, (list, tuple,)):
+            length = len(data)
+        elif data is None:
+            length = 0
         self.request.response.write(json.dumps(dict(success=True,
                                            message=message,
-                                           total=len(data),
+                                           total=length,
                                            data=data), indent=' '*4))
 
 

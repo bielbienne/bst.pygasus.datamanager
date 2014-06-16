@@ -26,3 +26,21 @@ class IModelTransformer(interface.Interface):
         """ return a dict with the data from model. This can
             easily parsed to json.
         """
+
+
+class IFieldTransformer(interface.Interface):
+    """ transform json values to model and model values to json.
+    """
+    
+    def __init__(self, model, field):
+        """ model: instance of IModel
+            field: instance of zope.schema.interfaces.IField
+        """
+
+    def get(self):
+        """ return value from model instance as string
+        """
+    
+    def set(self, value):
+        """ set the value as string as correct type to model instance.
+        """

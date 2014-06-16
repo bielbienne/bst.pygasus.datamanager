@@ -5,7 +5,7 @@ from grokcore.component import name as namedirective
 from zope import component
 from bb.extjs.datamanager.model import ExtBaseModel
 from bb.extjs.datamanager.interfaces import IModelTransformer
-from bb.extjs.datamanager.model import ModelTransfomerUtility
+from bb.extjs.datamanager.transformer import ModelTransfomerUtility
 
 
 
@@ -16,7 +16,7 @@ class schema(martian.Directive):
     default = None
 
 
-class TemplateGrokker(martian.ClassGrokker):
+class ExtModelGrokker(martian.ClassGrokker):
     martian.component(ExtBaseModel)
     martian.directive(schema)
     martian.directive(namedirective)
