@@ -1,4 +1,6 @@
 import json
+import sys
+import traceback
 
 from webob.exc import HTTPNotFound
 
@@ -35,13 +37,14 @@ class DataManagerEntryPoint(ext.MultiAdapter):
             transformer = getUtility(IModelTransformer, entity)
             model = transformer.model(self.request)
             handler = getMultiAdapter((model, self.request,), IModelHandler)
-            results = handler(model)
+            results, total = handler(model)
             if not isinstance(results, (list, tuple,)):
                 data = transformer.json(results)
             else:
                 data = [transformer.json(i) for i in results]
-            self.successresponse('Data loaded from class %s' % model, data)
+            self.successresponse('Data loaded from class %s' % model, data, total)
         except Exception as e:
+            print(traceback.format_exc(), file=sys.stderr)
             self.errorresponse(str(e))
 
     def errorresponse(self, message):
@@ -51,15 +54,10 @@ class DataManagerEntryPoint(ext.MultiAdapter):
                                            total=0,
                                            data=list()), indent=' '*4))
     
-    def successresponse(self, message, data):
-        length = 1
-        if isinstance(data, (list, tuple,)):
-            length = len(data)
-        elif data is None:
-            length = 0
+    def successresponse(self, message, data, total):
         self.request.response.write(json.dumps(dict(success=True,
                                            message=message,
-                                           total=length,
+                                           total=total,
                                            data=data), indent=' '*4))
 
 

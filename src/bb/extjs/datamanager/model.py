@@ -20,6 +20,11 @@ class ExtBaseModel(object):
         You will know what a grokker is? So read: https://pypi.python.org/pypi/martian
     """
     martian.baseclass()
+    
+    def instance(self):
+        """ return new object of same class
+        """
+        return self.__class__()
 
 
 @implementer(IModelHandler)
