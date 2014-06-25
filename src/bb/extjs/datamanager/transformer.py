@@ -55,7 +55,7 @@ class GenericFieldTransfomer(MultiAdapter):
         self.field = field
     
     def get(self):
-        return str(self.field.get(self.model))
+        return self.field.get(self.model)
 
     def set(self, value):
         if value is None:
