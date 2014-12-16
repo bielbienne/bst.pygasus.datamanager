@@ -15,6 +15,7 @@ from bb.extjs.wsgi.interfaces import IRootDispatcher
 
 from bb.extjs.datamanager.interfaces import IModelHandler
 from bb.extjs.datamanager.interfaces import IModelTransformer
+from bb.extjs.datamanager.interfaces import IJSONExceptionHandler
 
 
 @ext.implementer(IRootDispatcher)
@@ -44,15 +45,9 @@ class DataManagerEntryPoint(ext.MultiAdapter):
                 data = [transformer.json(i) for i in results]
             self.successresponse('Data loaded from class %s' % model, data, total)
         except Exception as e:
-            print(traceback.format_exc(), file=sys.stderr)
-            self.errorresponse(str(e))
+            exceptionhandler = IJSONExceptionHandler(e)
+            exceptionhandler(self.request)
 
-    def errorresponse(self, message):
-        self.request.response.status_code = 400
-        self.request.response.write(json.dumps(dict(success=False,
-                                           message=message,
-                                           total=0,
-                                           data=list()), indent=' '*4))
     
     def successresponse(self, message, data, total):
         self.request.response.write(json.dumps(dict(success=True,

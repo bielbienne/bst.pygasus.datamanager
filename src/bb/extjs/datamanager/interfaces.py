@@ -44,3 +44,11 @@ class IFieldTransformer(interface.Interface):
     def set(self, value):
         """ set the value as string as correct type to model instance.
         """
+
+
+class IJSONExceptionHandler(interface.Interface):
+    """ Generic Exception handler for json requests.
+    """
+    def __call__(self, request):
+        """ Handle the exception and write directly to response object.
+        """
