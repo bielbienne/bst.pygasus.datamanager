@@ -1,4 +1,5 @@
 import json
+import traceback
 import transaction
 
 from bb.extjs.core import ext
