@@ -91,4 +91,17 @@ class IdFieldTransformer(GenericFieldTransfomer):
             self.field.set(self.model, None)
         else:
             self.field.set(self.model, int(value))
-    
+
+
+class BoolFieldTransformer(GenericFieldTransfomer):
+    adapts(IModel, schema.interfaces.IBool)
+
+    def set(self, value):
+        if value is None:
+            self.field.set(self.model, None)
+        else:
+            if not isinstance(value, bool):
+                raise TypeError('The value %s is not a boolean' % value)
+            self.field.set(self.model, value)
+
+
