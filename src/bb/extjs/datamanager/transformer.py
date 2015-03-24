@@ -11,6 +11,8 @@ from grokcore.component import MultiAdapter
 from bb.extjs.datamanager.interfaces import IModel
 from bb.extjs.datamanager.interfaces import IFieldTransformer
 
+
+TIME_FORMAT = '%H:%M:%S.%f'
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S.%f'
 
 class ModelTransfomerUtility(object):
@@ -68,19 +70,28 @@ class GenericFieldTransfomer(MultiAdapter):
 
 class DateFieldTransformer(GenericFieldTransfomer):
     adapts(IModel, schema.interfaces.IDate)
+    format = DATETIME_FORMAT
+    transfomer = lambda s,x:x
     
     def get(self):
         date = self.field.get(self.model)
         if date is None:
             return date
-        return date.strftime(DATETIME_FORMAT)
+        return date.strftime(self.format)
 
     def set(self, value):
         if value is None:
             self.field.set(self.model, None)
         else:
-            value = datetime.strptime(value, DATETIME_FORMAT)
+            value = datetime.strptime(value, self.format)
+            value = self.transfomer(value)
             self.field.set(self.model, value)
+
+
+class TimeFieldTransformer(DateFieldTransformer):
+    adapts(IModel, schema.interfaces.ITime)
+    format = TIME_FORMAT
+    transfomer = lambda s,x:x.time()
 
 
 class IdFieldTransformer(GenericFieldTransfomer):
