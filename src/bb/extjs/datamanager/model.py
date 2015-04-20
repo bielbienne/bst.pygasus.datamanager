@@ -31,7 +31,7 @@ class ExtBaseModel(object):
 class AbstractModelHandler(MultiAdapter):
     adapts()
     baseclass()
-    
+
     def __init__(self, model, request):
         self.model = model
         self.request = request
@@ -39,20 +39,20 @@ class AbstractModelHandler(MultiAdapter):
                            POST=self.create,
                            DELETE=self.delete,
                            PUT=self.update)
-    
-    def __call__(self, model):
-        return self.method[self.request.method](model)
 
-    def get(self, model):
+    def __call__(self, model, batch):
+        return self.method[self.request.method](model, batch)
+
+    def get(self, model, batch):
         raise NotImplemented('get method is not implemented')
 
-    def create(self, model):
+    def create(self, model, batch):
         raise NotImplemented('put method is not implemented')
 
-    def delete(self, model):
+    def delete(self, model, batch):
         raise NotImplemented('delete method is not implemented')
     
-    def update(self, model):
+    def update(self, model, batch):
         raise NotImplemented('update method is not implemented')
 
 

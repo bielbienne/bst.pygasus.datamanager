@@ -36,19 +36,17 @@ class DataManagerEntryPoint(ext.MultiAdapter):
             self.request.path_info_pop()
             entity = self.request.path_info_pop()
             transformer = getUtility(IModelTransformer, entity)
-            model = transformer.model(self.request)
-            handler = getMultiAdapter((model, self.request,), IModelHandler)
-            results, total = handler(model)
-            if not isinstance(results, (list, tuple,)):
-                data = transformer.json(results)
-            else:
-                data = [transformer.json(i) for i in results]
-            self.successresponse('Data loaded from class %s' % model, data, total)
+            batch = transformer.model(self.request)
+            results = list()
+            for model in batch:
+                handler = getMultiAdapter((model, self.request,), IModelHandler)
+                results += handler(model, batch)
+            data = transformer.json(results)
+            self.successresponse('Data loaded from class %s' % model, data, len(data))
         except Exception as e:
             exceptionhandler = IJSONExceptionHandler(e)
             exceptionhandler(self.request)
 
-    
     def successresponse(self, message, data, total):
         self.request.response.write(json.dumps(dict(success=True,
                                            message=message,

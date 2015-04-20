@@ -25,27 +25,41 @@ class ModelTransfomerUtility(object):
         self.schema = schema
     
     def model(self, request):
-        """ return a instance of Model
+        """ return one or more instance of Model
         """
-        model = self.class_()
         if request.method == 'GET':
-            return model
-        self.readjson(request, model)
-        return model
+            return [self.class_()]
+        return self._readjson(request, self.class_)
 
-    def json(self, model):
+    def json(self, models):
+        if not isinstance(models, (list, tuple,)):
+            return self._json(models)
+        else:
+            return [self._json(i) for i in models]
+
+    def _json(self, model):
         data = dict()
         for fieldname in self.schema:
             field = self.schema.get(fieldname)
             data[fieldname] = getMultiAdapter((model, field), IFieldTransformer).get()
         return data
     
-    def readjson(self, request, model):
+    def _readjson(self, request, class_):
         data = json.loads(request.text)['data']
-        for fieldname in self.schema:
-            field = self.schema.get(fieldname)
-            if fieldname in data:
-                getMultiAdapter((model, field), IFieldTransformer).set(data[fieldname])
+
+        if not isinstance(data, (list, tuple,)):
+            data = [data]
+
+        models = list()
+        for row in data:
+            model = class_()
+            for fieldname in self.schema:
+                field = self.schema.get(fieldname)
+                if fieldname in row:
+                    getMultiAdapter((model, field), IFieldTransformer).set(row[fieldname])
+            models.append(model)
+
+        return models
 
 
 @implementer(IFieldTransformer)
