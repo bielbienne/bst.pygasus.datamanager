@@ -38,11 +38,14 @@ class DataManagerEntryPoint(ext.MultiAdapter):
             transformer = getUtility(IModelTransformer, entity)
             batch = transformer.model(self.request)
             results = list()
+            total = 0
             for model in batch:
                 handler = getMultiAdapter((model, self.request,), IModelHandler)
-                results += handler(model, batch)
+                result, subtotal = handler(model, batch)
+                results += result
+                total += subtotal
             data = transformer.json(results)
-            self.successresponse('Data loaded from class %s' % model, data, len(data))
+            self.successresponse('Data loaded from class %s' % model, data, total)
         except Exception as e:
             exceptionhandler = IJSONExceptionHandler(e)
             exceptionhandler(self.request)

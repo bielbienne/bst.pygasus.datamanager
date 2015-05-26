@@ -43,17 +43,42 @@ class AbstractModelHandler(MultiAdapter):
     def __call__(self, model, batch):
         return self.method[self.request.method](model, batch)
 
+    def slice(self):
+        start = self.request.params.get('start', None)
+        limit = self.request.params.get('limit', None)
+        
+        if limit is not None and start is not None:
+            start = int(start)
+            limit = int(limit)
+        else:
+            limit = None
+            start = None
+            
+        return start, limit
+
+    def sort(self):
+        sort_params = self.request.params.get('sort', None)
+        direction = None
+        property = None
+        
+        if sort_params is not None:
+            sort_params = json.loads(sort_params[1:-1])
+            direction = sort_params['direction']
+            property = sort_params['property']
+
+        return property, direction
+
     def get(self, model, batch):
-        raise NotImplemented('get method is not implemented')
+        raise NotImplementedError('get method is not implemented')
 
     def create(self, model, batch):
-        raise NotImplemented('put method is not implemented')
+        raise NotImplementedError('put method is not implemented')
 
     def delete(self, model, batch):
-        raise NotImplemented('delete method is not implemented')
+        raise NotImplementedError('delete method is not implemented')
     
     def update(self, model, batch):
-        raise NotImplemented('update method is not implemented')
+        raise NotImplementedError('update method is not implemented')
 
 
 
