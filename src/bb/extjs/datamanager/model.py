@@ -16,11 +16,11 @@ from bb.extjs.datamanager.interfaces import IModelHandler
 class ExtBaseModel(object):
     """ Base model for all model used in extjs.
         All model inherit form this class will automatically grokked.
-        
+
         You will know what a grokker is? So read: https://pypi.python.org/pypi/martian
     """
     martian.baseclass()
-    
+
     def instance(self):
         """ return new object of same class
         """
@@ -46,21 +46,21 @@ class AbstractModelHandler(MultiAdapter):
     def slice(self):
         start = self.request.params.get('start', None)
         limit = self.request.params.get('limit', None)
-        
+
         if limit is not None and start is not None:
             start = int(start)
             limit = int(limit)
         else:
             limit = None
             start = None
-            
+
         return start, limit
 
     def sort(self):
         sort_params = self.request.params.get('sort', None)
         direction = None
         property = None
-        
+
         if sort_params is not None:
             sort_params = json.loads(sort_params[1:-1])
             direction = sort_params['direction']
@@ -76,10 +76,6 @@ class AbstractModelHandler(MultiAdapter):
 
     def delete(self, model, batch):
         raise NotImplementedError('delete method is not implemented')
-    
+
     def update(self, model, batch):
         raise NotImplementedError('update method is not implemented')
-
-
-
-

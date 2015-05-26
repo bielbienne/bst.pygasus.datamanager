@@ -15,15 +15,16 @@ from bb.extjs.datamanager.interfaces import IFieldTransformer
 TIME_FORMAT = '%H:%M:%S.%f'
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S.%f'
 
+
 class ModelTransfomerUtility(object):
     """ this utility transform a json-request to a
         model. Each model as his named utility.
     """
-    
+
     def __init__(self, class_, schema):
         self.class_ = class_
         self.schema = schema
-    
+
     def model(self, request):
         """ return one or more instance of Model
         """
@@ -43,7 +44,7 @@ class ModelTransfomerUtility(object):
             field = self.schema.get(fieldname)
             data[fieldname] = getMultiAdapter((model, field), IFieldTransformer).get()
         return data
-    
+
     def _readjson(self, request, class_):
         data = json.loads(request.text)['data']
 
@@ -65,11 +66,11 @@ class ModelTransfomerUtility(object):
 @implementer(IFieldTransformer)
 class GenericFieldTransfomer(MultiAdapter):
     adapts(IModel, schema.interfaces.IField)
-    
+
     def __init__(self, model, field):
         self.model = model
         self.field = field
-    
+
     def get(self):
         return self.field.get(self.model)
 
@@ -85,8 +86,8 @@ class GenericFieldTransfomer(MultiAdapter):
 class DateFieldTransformer(GenericFieldTransfomer):
     adapts(IModel, schema.interfaces.IDate)
     format = DATETIME_FORMAT
-    transfomer = lambda s,x:x
-    
+    transfomer = lambda s, x: x
+
     def get(self):
         date = self.field.get(self.model)
         if date is None:
@@ -105,7 +106,7 @@ class DateFieldTransformer(GenericFieldTransfomer):
 class TimeFieldTransformer(DateFieldTransformer):
     adapts(IModel, schema.interfaces.ITime)
     format = TIME_FORMAT
-    transfomer = lambda s,x:x.time()
+    transfomer = lambda s, x: x.time()
 
 
 class IdFieldTransformer(GenericFieldTransfomer):
@@ -128,5 +129,3 @@ class BoolFieldTransformer(GenericFieldTransfomer):
             if not isinstance(value, bool):
                 raise TypeError('The value %s is not a boolean' % value)
             self.field.set(self.model, value)
-
-

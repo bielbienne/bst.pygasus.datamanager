@@ -8,13 +8,12 @@ from bb.extjs.datamanager.interfaces import IJSONExceptionHandler
 from webob.exc import HTTPError
 
 
-
 @ext.implementer(IJSONExceptionHandler)
 class DefaultExceptionHandler(ext.Adapter):
     """ This adapter is for all exceptions types.
         The handler wrap the error message to a json
         response object and send it back to client.
-        
+
         IN FUTURE WE SHOULD REMOVE THE ERROR MESSAGE FOR THE WEBUSER !!
     """
 
@@ -26,13 +25,14 @@ class DefaultExceptionHandler(ext.Adapter):
         print(traceback.format_exc())
         self.errorresponse(str(self.context), 500)
 
-
     def errorresponse(self, message, code):
         self.request.response.status_code = code
         self.request.response.write(json.dumps(dict(success=False,
-                                           message=message,
-                                           total=0,
-                                           data=list()), indent=' '*4))
+                                                    message=message,
+                                                    total=0,
+                                                    data=list()),
+                                    indent=' ' * 4))
+
 
 @ext.implementer(IJSONExceptionHandler)
 class DefaultHTTPExceptionHandler(DefaultExceptionHandler):

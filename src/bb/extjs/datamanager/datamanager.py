@@ -28,10 +28,10 @@ class DataManagerEntryPoint(ext.MultiAdapter):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-    
+
     def __call__(self):
-        self.request.response.content_type='application/javascript'
-        
+        self.request.response.content_type = 'application/javascript'
+
         try:
             self.request.path_info_pop()
             entity = self.request.path_info_pop()
@@ -52,8 +52,7 @@ class DataManagerEntryPoint(ext.MultiAdapter):
 
     def successresponse(self, message, data, total):
         self.request.response.write(json.dumps(dict(success=True,
-                                           message=message,
-                                           total=total,
-                                           data=data), indent=' '*4))
-
-
+                                               message=message,
+                                               total=total,
+                                               data=data),
+                                    indent=' ' * 4))
