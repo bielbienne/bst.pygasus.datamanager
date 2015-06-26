@@ -3,6 +3,7 @@ from datetime import datetime
 
 from zope import schema
 from zope.schema._bootstrapinterfaces import IFromUnicode
+from zope.schema.vocabulary import getVocabularyRegistry
 from zope.component import getMultiAdapter
 from grokcore.component import adapts
 from grokcore.component import implementer
@@ -129,3 +130,21 @@ class BoolFieldTransformer(GenericFieldTransfomer):
             if not isinstance(value, bool):
                 raise TypeError('The value %s is not a boolean' % value)
             self.field.set(self.model, value)
+
+
+class ChoiceFieldTransformer(GenericFieldTransfomer):
+    adapts(IModel, schema.interfaces.IChoice)
+    
+    def get(self):
+        vr = getVocabularyRegistry()
+        vocabular = vr.get(None, self.field.vocabularyName)
+        return vocabular.getTerm(self.field.get(self.model)).token
+
+    def set(self, value):
+        vr = getVocabularyRegistry()
+        vocabular = vr.get(None, self.field.vocabularyName)
+        term = vocabular.getTermByToken(value)
+        if term.value is None:
+            self.field.set(self.model, None)
+        else:
+            self.field.set(self.model, term.value)
