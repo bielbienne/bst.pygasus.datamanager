@@ -8,8 +8,8 @@ from grokcore.component import baseclass
 from grokcore.component import MultiAdapter
 
 from webob.exc import HTTPNotFound
-from bb.extjs.datamanager.interfaces import IModel
-from bb.extjs.datamanager.interfaces import IModelHandler
+from bst.pygasus.datamanager.interfaces import IModel
+from bst.pygasus.datamanager.interfaces import IModelHandler
 
 
 @implementer(IModel)

@@ -9,8 +9,8 @@ from grokcore.component import adapts
 from grokcore.component import implementer
 from grokcore.component import MultiAdapter
 
-from bb.extjs.datamanager.interfaces import IModel
-from bb.extjs.datamanager.interfaces import IFieldTransformer
+from bst.pygasus.datamanager.interfaces import IModel
+from bst.pygasus.datamanager.interfaces import IFieldTransformer
 
 
 TIME_FORMAT = '%H:%M:%S.%f'

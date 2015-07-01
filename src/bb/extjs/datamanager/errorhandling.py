@@ -2,8 +2,8 @@ import json
 import traceback
 import transaction
 
-from bb.extjs.core import ext
-from bb.extjs.datamanager.interfaces import IJSONExceptionHandler
+from bst.pygasus.core import ext
+from bst.pygasus.datamanager.interfaces import IJSONExceptionHandler
 
 from webob.exc import HTTPError
 

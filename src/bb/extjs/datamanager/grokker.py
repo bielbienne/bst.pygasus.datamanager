@@ -3,9 +3,9 @@ from martian.error import GrokError
 from grokcore.component import name as namedirective
 
 from zope import component
-from bb.extjs.datamanager.model import ExtBaseModel
-from bb.extjs.datamanager.interfaces import IModelTransformer
-from bb.extjs.datamanager.transformer import ModelTransfomerUtility
+from bst.pygasus.datamanager.model import ExtBaseModel
+from bst.pygasus.datamanager.interfaces import IModelTransformer
+from bst.pygasus.datamanager.transformer import ModelTransfomerUtility
 
 
 class schema(martian.Directive):

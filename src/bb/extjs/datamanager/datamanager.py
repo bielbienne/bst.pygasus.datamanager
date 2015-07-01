@@ -7,15 +7,15 @@ from webob.exc import HTTPNotFound
 from zope.component import getUtility
 from zope.component import getMultiAdapter
 
-from bb.extjs.core import ext
-from bb.extjs.core.interfaces import IApplicationContext
+from bst.pygasus.core import ext
+from bst.pygasus.core.interfaces import IApplicationContext
 
-from bb.extjs.wsgi.interfaces import IRequest
-from bb.extjs.wsgi.interfaces import IRootDispatcher
+from bst.pygasus.wsgi.interfaces import IRequest
+from bst.pygasus.wsgi.interfaces import IRootDispatcher
 
-from bb.extjs.datamanager.interfaces import IModelHandler
-from bb.extjs.datamanager.interfaces import IModelTransformer
-from bb.extjs.datamanager.interfaces import IJSONExceptionHandler
+from bst.pygasus.datamanager.interfaces import IModelHandler
+from bst.pygasus.datamanager.interfaces import IModelTransformer
+from bst.pygasus.datamanager.interfaces import IJSONExceptionHandler
 
 
 @ext.implementer(IRootDispatcher)

@@ -14,7 +14,7 @@ long_description = (
     open('CHANGES.txt').read()
     + '\n')
 
-setup(name='bb.extjs.datamanager',
+setup(name='bst.pygasus.datamanager',
       version=version,
       description="Dipatch ajax data to persistence layer",
       long_description=long_description,
@@ -30,7 +30,7 @@ setup(name='bb.extjs.datamanager',
       license='gpl',
       packages=find_packages('src'),
       package_dir={'': 'src'},
-      namespace_packages=['bb', 'bb.extjs'],
+      namespace_packages=['bb', 'bst.pygasus'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[
