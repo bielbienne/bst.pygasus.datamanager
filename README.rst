@@ -26,3 +26,9 @@ Demonstration application
 
 Our projects and future plans with the Pygasus framework
     https://foss.biel-bienne.ch/
+
+
+About us
+========
+We are the IT Services of Biel/Bienne, Switzerland.
+http://foss.biel-bienne.ch/blog/
