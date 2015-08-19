@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.1 (2015-08-19)
 ------------------
 
 - Use complete MANIFEST.in
